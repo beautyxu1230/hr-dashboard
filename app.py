@@ -60,26 +60,26 @@ st.divider()
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("各年龄段离职率")
+    st.subheader("Attrition Rate by Age Group")
     age_attrition = filtered_df.groupby('年龄分组', observed=True)['Attrition'].apply(
         lambda x: (x == 'Yes').sum() / len(x) * 100
     )
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     bars = ax1.bar(age_attrition.index, age_attrition.values, color=['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'])
-    ax1.set_ylabel('离职率 (%)')
+    ax1.set_ylabel('Attrition Rate (%)')
     ax1.set_ylim(0, max(age_attrition.values) * 1.2 if len(age_attrition) > 0 else 50)
     for bar, val in zip(bars, age_attrition.values):
         ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5, f'{val:.1f}%', ha='center', va='bottom')
     st.pyplot(fig1)
 
 with col2:
-    st.subheader("各收入段离职率")
+    st.subheader("Attrition Rate by Income Group")
     income_attrition = filtered_df.groupby('收入分组', observed=True)['Attrition'].apply(
         lambda x: (x == 'Yes').sum() / len(x) * 100
     )
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     bars = ax2.bar(income_attrition.index, income_attrition.values, color=['#FF6B6B', '#FECA57', '#48DBFB', '#0ABDE3'])
-    ax2.set_ylabel('离职率 (%)')
+    ax2.set_ylabel('Attrition Rate (%)')
     ax2.set_ylim(0, max(income_attrition.values) * 1.2 if len(income_attrition) > 0 else 50)
     for bar, val in zip(bars, income_attrition.values):
         ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5, f'{val:.1f}%', ha='center', va='bottom')
@@ -87,7 +87,7 @@ with col2:
 
 st.divider()
 
-st.subheader("各岗位离职率排名")
+st.subheader("Attrition Rate by Job Role")
 job_attrition = filtered_df.groupby('JobRole')['Attrition'].apply(
     lambda x: (x == 'Yes').sum() / len(x) * 100
 ).sort_values(ascending=False)
@@ -95,7 +95,7 @@ job_attrition = filtered_df.groupby('JobRole')['Attrition'].apply(
 fig3, ax3 = plt.subplots(figsize=(10, 5))
 colors = ['#FF6B6B' if i < 3 else '#4ECDC4' for i in range(len(job_attrition))]
 bars = ax3.barh(job_attrition.index, job_attrition.values, color=colors)
-ax3.set_xlabel('离职率 (%)')
+ax3.set_xlabel('Attrition Rate (%)')
 for bar, val in zip(bars, job_attrition.values):
     ax3.text(bar.get_width() + 0.5, bar.get_y() + bar.get_height()/2, f'{val:.1f}%', va='center')
 st.pyplot(fig3)
