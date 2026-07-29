@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-# 强制 matplotlib 使用英文字体（解决云端乱码）
+# 强制 matplotlib 使用英文字体
 plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
@@ -14,13 +14,13 @@ st.title("HR 员工离职风险分析看板")
 def load_data():
     df = pd.read_csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
     bins = [18, 30, 40, 50, 70]
-    labels = ['18-30岁', '30-40岁', '40-50岁', '50岁以上']
+    labels = ['18-30', '30-40', '40-50', '50+']  # 改这里
     df['年龄分组'] = pd.cut(df['Age'], bins=bins, labels=labels, right=False)
     bins_income = [0, 3000, 6000, 10000, 20000]
-    labels_income = ['低收入', '中低收入', '中高收入', '高收入']
+    labels_income = ['Low', 'Medium-Low', 'Medium-High', 'High']  # 改这里
     df['收入分组'] = pd.cut(df['MonthlyIncome'], bins=bins_income, labels=labels_income, right=False)
     return df
-
+    
 df = load_data()
 
 df['风险分'] = (
