@@ -3,8 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-# 修复中文字体（云端通用）
-plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'sans-serif']
+# 强制 matplotlib 使用英文字体（解决云端乱码）
+plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
 st.set_page_config(page_title="HR离职风险分析看板", layout="wide")
