@@ -125,17 +125,17 @@ st.markdown('<div class="main-title">员工离职风险分析看板</div>', unsa
 def load_data():
     df = pd.read_csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
     bins = [18, 30, 40, 50, 70]
-    labels = ['18-30岁', '30-40岁', '40-50岁', '50岁以上']
+    labels = ['18-30', '30-40', '40-50', '50+']
     df['年龄分组'] = pd.cut(df['Age'], bins=bins, labels=labels, right=False)
     bins_income = [0, 3000, 6000, 10000, 20000]
-    labels_income = ['低收入', '中低收入', '中高收入', '高收入']
+    labels_income = ['Low', 'Med-Low', 'Med-High', 'High']
     df['收入分组'] = pd.cut(df['MonthlyIncome'], bins=bins_income, labels=labels_income, right=False)
     return df
 
 df = load_data()
 
 # ========== 设置中文字体 ==========
-plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS']
+plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
 # ========== 侧边栏 ==========
@@ -195,7 +195,7 @@ with col4:
     st.markdown(f"""
     <div class="metric-card">
         <div class="label">平均年龄</div>
-        <div class="value">{avg_age:.1f}岁</div>
+        <div class="value">{avg_age:.1f}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -243,7 +243,7 @@ with col1:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     bars = ax1.bar(age_attrition.index, age_attrition.values, 
                    color=['#2563EB', '#60A5FA', '#93C5FD', '#BFDBFE'])
-    ax1.set_ylabel('离职率 (%)', fontsize=11)
+    ax1.set_ylabel('Attrition Rate (%)', fontsize=11)
     ax1.set_ylim(0, max(age_attrition.values) * 1.2 if len(age_attrition) > 0 else 50)
     ax1.tick_params(axis='x', rotation=0, labelsize=10)
     for bar, val in zip(bars, age_attrition.values):
@@ -275,7 +275,7 @@ with col1:
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     bars = ax2.bar(income_attrition.index, income_attrition.values,
                    color=['#EF4444', '#F59E0B', '#60A5FA', '#2563EB'])
-    ax2.set_ylabel('离职率 (%)', fontsize=11)
+    ax2.set_ylabel('Attrition Rate (%)', fontsize=11)
     ax2.set_ylim(0, max(income_attrition.values) * 1.2 if len(income_attrition) > 0 else 50)
     ax2.tick_params(axis='x', rotation=0, labelsize=10)
     for bar, val in zip(bars, income_attrition.values):
@@ -307,7 +307,7 @@ with col1:
     fig3, ax3 = plt.subplots(figsize=(8, 5))
     colors = ['#EF4444' if i < 3 else '#60A5FA' for i in range(len(job_attrition))]
     bars = ax3.barh(job_attrition.index, job_attrition.values, color=colors)
-    ax3.set_xlabel('离职率 (%)', fontsize=11)
+    ax3.set_xlabel('Attrition Rate (%)', fontsize=11)
     ax3.tick_params(axis='y', labelsize=9)
     for bar, val in zip(bars, job_attrition.values):
         ax3.text(bar.get_width() + 0.3, bar.get_y() + bar.get_height()/2,
@@ -323,7 +323,7 @@ with col2:
 st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
 
 # ============================================================
-# 底部大表格（恢复完整数据）
+# 底部大表格
 # ============================================================
 st.markdown('<div class="section-title">完整数据预览</div>', unsafe_allow_html=True)
 st.dataframe(
